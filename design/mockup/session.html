@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JBotics: task session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css">
+</head>
+<body data-page="session">
+<div class="app">
+  <header class="titlebar"></header>
+  <aside class="sidebar"></aside>
+
+  <main class="main">
+    <div class="task-head">
+      <span class="dot run"></span>
+      <h1>Fix failing tokenizer test</h1>
+      <span class="meta"><span>~/code/libtok</span><span class="mono">jb/t-0142</span><span>auto-edit</span></span>
+      <span class="spacer"></span>
+      <span class="budgets">
+        <span class="budget">steps <span class="bar acc"><i style="width:23%"></i></span><span class="v">14/60</span></span>
+        <span class="budget">ctx <span class="bar"><i style="width:57%"></i></span><span class="v">18K/32K</span></span>
+        <span class="budget">time <span class="bar"><i style="width:16%"></i></span><span class="v">3:12/20m</span></span>
+      </span>
+    </div>
+
+    <div class="stream"><div class="stream-inner">
+      <div class="goal prose">The <code>split_utf8</code> test in <code>tests/tokenizer_test.c</code> fails since the last refactor. Make it pass without changing the test.</div>
+
+      <div class="plan">
+        <span class="done">1 Run tests</span><span class="done">2 Read split_utf8</span>
+        <span class="now">3 Fix continuation-byte check</span><span>4 Verify</span>
+      </div>
+
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">run</span><span class="tool-arg">make test</span><span class="tool-res bad">exit 2 · 1 failed</span></div></div>
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">search</span><span class="tool-arg">split_utf8  src/ tests/</span><span class="tool-res">4 hits</span></div></div>
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">read</span><span class="tool-arg">tests/tokenizer_test.c  88–121</span><span class="tool-res">34 lines</span></div></div>
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">read</span><span class="tool-arg">src/tokenizer.c  112–168</span><span class="tool-res">57 lines</span></div></div>
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">read</span><span class="tool-arg">src/utf8.h</span><span class="tool-res">41 lines</span></div></div>
+      <div class="think">thought 4.1s</div>
+
+      <div class="tool">
+        <div class="tool-h"><span class="chev">▾</span><span class="tool-name">edit</span><span class="tool-arg">src/tokenizer.c</span><span class="tool-res ok">+2 −2</span></div>
+        <div class="tool-b diff">
+          <div class="hunk">@@ -131,7 +131,7 @@ split_utf8</div>
+          <div class="ln"><span>132</span><span> </span><span>        size_t len = utf8_len((unsigned char)s[i]);</span></div>
+          <div class="ln del"><span>133</span><span>-</span><span>        if (i + len &gt;= n) break;</span></div>
+          <div class="ln add"><span>133</span><span>+</span><span>        if (i + len &gt; n) break;</span></div>
+          <div class="ln del"><span>134</span><span>-</span><span>        for (size_t k = 1; k &lt;= len; k++)</span></div>
+          <div class="ln add"><span>134</span><span>+</span><span>        for (size_t k = 1; k &lt; len; k++)</span></div>
+          <div class="ln"><span>135</span><span> </span><span>            if ((s[i + k] &amp; 0xC0) != 0x80) return ERR_UTF8;</span></div>
+        </div>
+      </div>
+      <div class="commit-line">a41c9e2 jb: edit src/tokenizer.c</div>
+      <div class="tool"><div class="tool-h"><span class="chev">▸</span><span class="tool-name">edit</span><span class="tool-arg">src/utf8.h</span><span class="tool-res ok">+7 −2</span></div></div>
+      <div class="commit-line">7be0d14 jb: edit src/utf8.h</div>
+
+      <div class="tool">
+        <div class="tool-h"><span class="chev">▾</span><span class="tool-name">run</span><span class="tool-arg">make test</span><span class="tool-res ok">exit 0 · 42 passed</span></div>
+        <pre class="tool-b out"><span class="g">PASS</span> split_ascii             <span class="d">0.02 ms</span>
+<span class="g">PASS</span> split_utf8              <span class="d">0.04 ms</span>
+<span class="g">PASS</span> split_trailing_partial  <span class="d">0.01 ms</span>
+<span class="d">… 39 more</span>
+<span class="g">42 passed</span>, 0 failed</pre>
+      </div>
+
+      <div class="live prose">The bounds check dropped a 3-byte sequence ending exactly at the buffer end, and the loop read one byte past it. Both fixed; 42/42 pass. Running verify before marking done<span class="caret"></span></div>
+    </div></div>
+
+    <div class="composer">
+      <div class="composer-box">
+        <div class="composer-row">
+          <span class="composer-input">Guide the agent…</span>
+          <span class="seg"><span>ask</span><span class="on">auto-edit</span><span>full auto</span></span>
+          <button class="btn small ghost">Pause</button>
+          <button class="btn small stop">Stop</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="right">
+    <div class="tabs">
+      <div class="tab on">Changes <span class="n">2</span></div>
+      <div class="tab">Commits <span class="n">3</span></div>
+      <div class="tab">Context</div>
+      <div class="tab">Log</div>
+    </div>
+    <div class="right-scroll">
+      <div class="section">
+        <div class="section-h"><span>Verify</span><span>8s ago</span></div>
+        <div class="kv"><span class="mono"><span class="dot ok"></span>&nbsp; make test</span><span class="pm ok">42/42</span></div>
+      </div>
+      <div class="section">
+        <div class="section-h"><span>Files</span><span class="pm"><span class="p">+9</span><span class="m">−4</span></span></div>
+        <div class="kv on"><span class="mono"><span class="dir">src/</span>tokenizer.c</span><span class="pm"><span class="p">+2</span><span class="m">−2</span></span></div>
+        <div class="kv"><span class="mono"><span class="dir">src/</span>utf8.h</span><span class="pm"><span class="p">+7</span><span class="m">−2</span></span></div>
+      </div>
+      <div class="section">
+        <div class="section-h"><span>Commits</span><span>jb/t-0142</span></div>
+        <div class="kv"><span class="mono">a41c9e2 <span class="muted">edit src/tokenizer.c</span></span><span class="muted">1m</span></div>
+        <div class="kv"><span class="mono">7be0d14 <span class="muted">edit src/utf8.h</span></span><span class="muted">1m</span></div>
+        <div class="kv"><span class="mono">2f9a301 <span class="muted">start from main@c03e7a1</span></span><span class="muted">3m</span></div>
+      </div>
+      <div class="section">
+        <div class="section-h"><span>Context</span><span>18.4K / 32K</span></div>
+        <div class="kv"><span>System, tools, rules</span><span class="num">2.1K</span></div>
+        <div class="kv"><span>Repo map · 38 files</span><span class="num">1.6K</span></div>
+        <div class="kv"><span>Task + plan (pinned)</span><span class="num">0.4K</span></div>
+        <div class="kv"><span>History · 14 steps, 3 trimmed</span><span class="num">14.3K</span></div>
+      </div>
+      <div class="section">
+        <div class="section-h"><span>Slot</span><span>llama-server :8411</span></div>
+        <div class="kv"><span>Prompt cache hit</span><span class="num">94%</span></div>
+        <div class="kv"><span>Tool-call repairs</span><span class="num">0</span></div>
+        <div class="kv"><span>Loop warnings</span><span class="num">0</span></div>
+      </div>
+    </div>
+    <div class="right-foot">
+      <button class="btn">Open diff</button>
+      <button class="btn">Merge…</button>
+    </div>
+  </aside>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

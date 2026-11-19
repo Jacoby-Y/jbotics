@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JBotics: models</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="mockup.css">
+</head>
+<body data-page="models">
+<div class="app no-right">
+  <header class="titlebar"></header>
+  <aside class="sidebar"></aside>
+
+  <main class="main">
+    <div class="page"><div class="page-inner">
+      <div class="page-head">
+        <h1>Models</h1>
+        <span class="muted">13.1 GB used · 412 GB free</span>
+        <button class="btn">Add GGUF</button>
+        <button class="btn primary">Pull model</button>
+      </div>
+
+      <div class="hw">
+        <span>gpu <b>RTX 3070</b> 8G · cuda 12.4</span>
+        <span>cpu <b>Ryzen 7 5800X</b> 8c · avx2</span>
+        <span>ram <b>32G</b> · 21.7G free</span>
+        <span>runtime <b>llama.cpp b6120</b> cuda</span>
+      </div>
+
+      <div class="rec">
+        <span class="k">doctor</span>
+        <span>Q6_K, full offload, 32K ctx, q8_0 KV cache</span>
+        <span class="spacer"></span>
+        <span class="mono muted">-ngl 99 -c 32768 -ctk q8_0 -ctv q8_0</span>
+      </div>
+
+      <table class="grid">
+        <thead><tr>
+          <th>Model</th><th>Quant</th><th style="text-align:right">Size</th><th>Ctx</th><th>Status</th><th>Evals</th><th style="text-align:right">tok/s</th><th></th>
+        </tr></thead>
+        <tbody>
+          <tr class="sel">
+            <td>Nanbeige4.2 3B<span class="model-sub">apache-2.0</span></td>
+            <td><span class="q acc">Q6_K</span></td>
+            <td class="num">3.3G</td>
+            <td class="q">32K/256K</td>
+            <td><span class="dot ok"></span>&nbsp; loaded · 2 slots</td>
+            <td><div class="evalbar"><span class="bar"><i style="width:57%"></i></span>17/30</div></td>
+            <td class="num">38.2</td>
+            <td style="text-align:right"><button class="btn small ghost">Unload</button></td>
+          </tr>
+          <tr>
+            <td>Nanbeige4.2 3B<span class="model-sub">apache-2.0</span></td>
+            <td><span class="q">Q8_0</span></td>
+            <td class="num">4.4G</td>
+            <td class="q">32K/256K</td>
+            <td><div class="prog"><span class="bar acc"><i style="width:64%"></i></span><small>64% · 41 MB/s · 0:39</small></div></td>
+            <td class="muted">–</td>
+            <td class="num muted">–</td>
+            <td style="text-align:right"><button class="btn small ghost">Pause</button></td>
+          </tr>
+          <tr>
+            <td>Nanbeige4.2 3B<span class="model-sub">apache-2.0</span></td>
+            <td><span class="q">Q4_K_M</span></td>
+            <td class="num">2.7G</td>
+            <td class="q">32K/256K</td>
+            <td><span class="dot"></span>&nbsp; installed</td>
+            <td><div class="evalbar"><span class="bar"><i style="width:43%"></i></span>13/30</div></td>
+            <td class="num">51.6</td>
+            <td style="text-align:right"><button class="btn small ghost">Load</button></td>
+          </tr>
+          <tr>
+            <td>Coder 7B Instruct<span class="model-sub">local file</span></td>
+            <td><span class="q">Q4_K_M</span></td>
+            <td class="num">4.7G</td>
+            <td class="q">16K/128K</td>
+            <td><span class="dot bad"></span>&nbsp; template unverified</td>
+            <td class="muted">–</td>
+            <td class="num muted">–</td>
+            <td style="text-align:right"><button class="btn small ghost">Fix profile</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="two">
+        <div>
+          <div class="h2"><span>Profile</span><span class="mono">profiles/nanbeige4.2-3b.toml</span></div>
+          <pre class="out"><span class="d"># source pinned in phase 0</span>
+tool_format = <span class="g">"xml"</span>      temperature = 1.0
+thinking    = <span class="g">"preserve"</span> top_p       = 0.95
+grammar     = <span class="g">"nanbeige4.2-3b.gbnf"</span>  top_k = 20
+template    = <span class="g">matches /apply-template</span></pre>
+        </div>
+        <div>
+          <div class="h2"><span>Bench · Q6_K on this machine</span><span>2 min ago</span></div>
+          <table class="grid kvt"><tbody>
+            <tr><td>Prompt processing</td><td class="num">2,940 tok/s</td></tr>
+            <tr><td>Generation</td><td class="num">38.2 tok/s</td></tr>
+            <tr><td>First token, 8K cached prompt</td><td class="num">0.21 s</td></tr>
+            <tr><td>Tool-call validity (our parser)</td><td class="num ok">100%</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div></div>
+  </main>
+</div>
+<script src="shell.js"></script>
+</body>
+</html>

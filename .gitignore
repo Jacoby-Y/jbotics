@@ -1,0 +1,24 @@
+# j3c build output
+target/
+
+# local model weights and runtimes never go in git
+*.gguf
+/models/
+/runtimes/
+
+# agent sessions and eval output
+/sessions/
+/evals/out/
+
+# native shim build output
+/native/build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*~
+
+# personal agent settings
+.claude/settings.local.json

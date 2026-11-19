@@ -1,0 +1,10 @@
+[package]
+name = "jbotics"
+entry = "src/main.j3"
+version = "0.0.1"
+description = "Run and manage autonomous local coding agents"
+
+[emit]
+backend = "llvm"
+opt = 1
+debug = true
